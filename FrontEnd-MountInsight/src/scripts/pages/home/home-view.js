@@ -29,9 +29,9 @@ export default class HomeView {
             <div class="difficulty-options">
               <label class="main-label">Kesulitan</label>
               <div class="difficulty-list">
-                  <label><input type="radio" name="difficulty"> Mudah</label>
-                  <label><input type="radio" name="difficulty"> Sedang</label>
-                  <label><input type="radio" name="difficulty"> Sulit</label>
+                  <label><input type="radio" name="difficulty" value="mudah"> Mudah</label>
+                  <label><input type="radio" name="difficulty" value="sedang"> Sedang</label>
+                  <label><input type="radio" name="difficulty" value="sulit"> Sulit</label>
               </div>
             </div>
 
@@ -41,7 +41,7 @@ export default class HomeView {
               </div>
               <select id="daerah" name="daerah" required>
                   <option value="" disabled selected hidden>Pilih Kota</option>
-                  <option value="bromo">Gunung Bromo</option>
+                  <option value="malang">Malang</option>
                   <option value="rinjani">Gunung Rinjani</option>
                   <option value="semeru">Gunung Semeru</option>
               </select>
@@ -62,7 +62,10 @@ export default class HomeView {
       const percentage = ((val - min) / (max - min)) * 100;
 
       priceSlider.style.background = `linear-gradient(to right, #f76b1c 0%, #f76b1c ${percentage}%, #ddd ${percentage}%, #ddd 100%)`;
-      hargaValue.textContent = `Rp. ${value.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+      hargaValue.textContent = `Rp. ${value.replace(
+        /\B(?=(\d{3})+(?!\d))/g,
+        "."
+      )}`;
     }
 
     // Inisialisasi nilai awal
@@ -72,7 +75,11 @@ export default class HomeView {
     priceSlider.addEventListener("input", (e) => {
       updateSliderVisual(e.target.value);
     });
+  }
 
+  showRecommendationError(message) {
+    const section = document.getElementById("recommendation-section");
+    section.innerHTML = `<p class="error-message">${message}</p>`;
   }
 
   renderRecommendations(recommendations) {
