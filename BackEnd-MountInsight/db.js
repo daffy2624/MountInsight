@@ -9,5 +9,3 @@ async function getConnection() {
 }
 
 module.exports = getConnection;
-
-console.log("HALO");
