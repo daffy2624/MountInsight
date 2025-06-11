@@ -68,46 +68,6 @@ export default class HomePresenter {
     });
   }
 
-  // _getRecommendations() {
-  //   return [
-  //     {
-  //       name: "Gunung Kawi",
-  //       image: "/images/Kawi.png",
-  //       description:
-  //         "Gunung yang cocok untuk pemula dengan jalur yang cukup ramah dan suasana mistis yang khas.",
-  //       link: "#",
-  //     },
-  //     {
-  //       name: "Gunung Semeru",
-  //       image: "/images/semeru.webp",
-  //       description:
-  //         "Gunung tertinggi di Pulau Jawa. Cocok untuk pendaki berpengalaman. Jalur menantang dan indah.",
-  //       link: "#",
-  //     },
-  //     {
-  //       name: "Gunung Rinjani",
-  //       image: "/images/gunung.png",
-  //       description:
-  //         "Gunung eksotis di Lombok dengan pemandangan Danau Segara Anak yang memukau.",
-  //       link: "#",
-  //     },
-  //     {
-  //       name: "Gunung Sindoro",
-  //       image: "/images/bromo.jpg",
-  //       description:
-  //         "Gunung di Jawa Tengah yang terkenal dengan sunrise-nya. Jalurnya cukup menanjak tapi bersahabat.",
-  //       link: "#",
-  //     },
-  //     {
-  //       name: "Gunung Prau",
-  //       image: "/images/Kawi.png",
-  //       description:
-  //         "Gunung pendek favorit pendaki pemula, terkenal dengan bukit teletubbies dan sunrise yang cantik.",
-  //       link: "#",
-  //     },
-  //   ];
-  // }
-
   _getMountains() {
     return [
       {
