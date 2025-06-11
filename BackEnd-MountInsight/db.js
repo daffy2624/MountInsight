@@ -9,3 +9,5 @@ async function getConnection() {
 }
 
 module.exports = getConnection;
+
+console.log("TAIK");
