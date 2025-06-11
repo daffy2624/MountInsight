@@ -26,13 +26,14 @@ export default class ProfileView {
 
   renderForm(profile = {}) {
     const {
-      name = 'Awe',
-      email = 'awe1234@gmail.com',
-      age = 19,
-      gender = 'Female',
+      name = '',
+      email = '',
+      age = '',
+      gender = '',
     } = profile;
 
     const form = document.getElementById('profile-info');
+
     form.innerHTML = `
       <div>
         <label for="name">Name</label>
@@ -49,9 +50,8 @@ export default class ProfileView {
       <div>
         <label for="gender">Gender</label>
         <select id="gender" disabled>
-          <option value="Male" ${gender === 'Male' ? 'selected' : ''}>Male</option>
-          <option value="Female" ${gender === 'Female' ? 'selected' : ''}>Female</option>
-          <option value="Other" ${gender === 'Other' ? 'selected' : ''}>Other</option>
+          <option value="L" ${gender === 'L' ? 'selected' : ''}>Male</option>
+          <option value="P" ${gender === 'P' ? 'selected' : ''}>Female</option>
         </select>
       </div>
       <div class="profile-buttons">
@@ -67,23 +67,23 @@ export default class ProfileView {
   }
 
   setupProfilePictureUpload() {
-  const uploadInput = document.getElementById('uploadInput');
-  const profileImage = document.getElementById('profileImage');
-  const changePicBtn = document.getElementById('changePicBtn');
+    const uploadInput = document.getElementById('uploadInput');
+    const profileImage = document.getElementById('profileImage');
+    const changePicBtn = document.getElementById('changePicBtn');
 
-  changePicBtn.addEventListener('click', () => {
-    uploadInput.click();
-  });
+    changePicBtn.addEventListener('click', () => {
+      uploadInput.click();
+    });
 
-  uploadInput.addEventListener('change', (event) => {
-    const file = event.target.files[0];
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        profileImage.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-}
+    uploadInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          profileImage.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
 }

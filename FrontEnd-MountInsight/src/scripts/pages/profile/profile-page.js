@@ -1,10 +1,11 @@
 import ProfilePresenter from "./profile-presenter";
 import ProfileView from "./profile-view";
+import * as MountainApi from "../../data/api";
 
 export default class ProfilePage {
   constructor() {
     this.view = new ProfileView();
-    this.presenter = new ProfilePresenter(this.view);
+    this.presenter = new ProfilePresenter(this.view, MountainApi);
   }
 
   async render() {

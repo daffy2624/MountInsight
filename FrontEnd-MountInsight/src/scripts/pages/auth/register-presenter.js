@@ -1,32 +1,47 @@
 export default class RegisterPresenter {
-  constructor(view) {
+  constructor(view, model) {
     this.view = view;
+    this.model = model;
   }
 
   init() {
     const form = document.getElementById("registerForm");
 
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const data = {
-        firstName: document.getElementById("firstName").value,
-        lastName: document.getElementById("lastName").value,
+        name: document.getElementById("name").value,
+        age: parseInt(document.getElementById("age").value, 10),
+        gender: document.getElementById("gender").value,
         email: document.getElementById("email").value,
-        phone: document.getElementById("phone").value,
         password: document.getElementById("password").value,
-        confirmPassword: document.getElementById("confirmPassword").value,
-        termsAgreed: document.getElementById("agreeTerms").checked,
       };
 
-      if (data.password !== data.confirmPassword) {
-        alert("Passwords do not match!");
+      if (!data.name || !data.age || !data.gender || !data.email || !data.password) {
+        alert("Semua field wajib diisi.");
         return;
       }
 
-      console.log("Registering:", data);
+      try {
+        const response = await this.model.getRegister({
+          name: data.name,
+          age: data.age,
+          gender: data.gender,
+          email: data.email,
+          password: data.password,
+        });
 
-      // TODO: Add registration logic
+        if (response.ok) {
+          alert("Registrasi berhasil! Silakan login.");
+          window.location.href = "#/login";
+        } else {
+          alert(`Registrasi gagal: ${response.message || "Terjadi kesalahan."}`);
+        }
+      } catch (error) {
+        console.error("Error saat registrasi:", error);
+        alert("Terjadi kesalahan saat registrasi.");
+      }
     });
   }
 }

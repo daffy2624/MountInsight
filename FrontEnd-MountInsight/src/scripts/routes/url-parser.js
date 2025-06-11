@@ -1,9 +1,8 @@
 function extractPathnameSegments(path) {
-  const splitUrl = path.split('/');
-
+  const splitUrl = path.replace(/^\/+|\/+$/g, '').split('/');
   return {
-    resource: splitUrl[1] || null,
-    id: splitUrl[2] || null,
+    resource: splitUrl[0] || null,
+    id: splitUrl[1] || null,
   };
 }
 
@@ -11,18 +10,18 @@ function constructRouteFromSegments(pathSegments) {
   let pathname = '';
 
   if (pathSegments.resource) {
-    pathname = pathname.concat(`/${pathSegments.resource}`);
+    pathname += `/${pathSegments.resource}`;
   }
 
   if (pathSegments.id) {
-    pathname = pathname.concat('/:id');
+    pathname += '/:id';
   }
 
   return pathname || '/';
 }
 
 export function getActivePathname() {
-  return location.hash.replace('#', '') || '/';
+  return location.hash.replace(/^#\/?|\/$/g, '') || '/';
 }
 
 export function getActiveRoute() {

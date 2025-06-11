@@ -6,7 +6,7 @@ import ProfilePage from '../pages/profile/profile-page';
 
 const routes = {
   '/': new HomePage(),
-  '/mountain': new MountainPage(),
+  '/mountain/:id': new MountainPage(),
   '/profile': new ProfilePage(),
   '/login': new LoginPage(),
   '/register': new RegisterPage(),
