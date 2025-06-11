@@ -42,8 +42,19 @@ export default class HomeView {
               <select id="daerah" name="daerah" required>
                   <option value="" disabled selected hidden>Pilih Kota</option>
                   <option value="malang">Malang</option>
-                  <option value="rinjani">Gunung Rinjani</option>
-                  <option value="semeru">Gunung Semeru</option>
+                  <option value="magetan">Magetan</option>
+                  <option value="batu">Batu</option>
+                  <option value="banyuwangi">Banyuwangi</option>
+                  <option value="blitar">Blitar</option>
+                  <option value="bondowoso">Bondowoso</option>
+                  <option value="situbondo">Situbondo</option>
+                  <option value="mojokerto">Mojokerto</option>
+                  <option value="ponorogo">Ponorogo</option>
+                  <option value="madiun">Madiun</option>
+                  <option value="lumajang">Lumajang</option>
+                  <option value="pasuruan">Pasuruan</option>
+                  <option value="jember">Jember</option>
+                  <option value="tulungagung">Tulungagung</option>
               </select>
               <button class="btn-cari">Cari</button>
           </div>
