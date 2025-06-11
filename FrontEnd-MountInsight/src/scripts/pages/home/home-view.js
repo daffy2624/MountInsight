@@ -19,10 +19,10 @@ export default class HomeView {
             <div class="price-range">
                 <label class="main-label">Budget</label>
                 <div class="range-labels">
+                    <span>Rp. 10.000</span>
                     <span>Rp. 100.000</span>
-                    <span>Rp. 1.200.000</span>
                 </div>
-                <input type="range" id="priceSlider" min="100000" max="1200000" step="10000" value="10000">
+                <input type="range" id="priceSlider" min="10000" max="100000" step="5000" value="5000">
                 <div id="hargaValue">Rp. 100.000</div>
             </div>
 
