@@ -1,6 +1,7 @@
+require("dotenv").config();
 const Hapi = require("@hapi/hapi");
 const Inert = require("@hapi/inert");
-const Path = require("path"); 
+const Path = require("path");
 
 const profile_routes = require("./routes/profile-route");
 const mountain_routes = require("./routes/mountain-route");
@@ -9,11 +10,11 @@ const auth_routes = require("./routes/auth-route");
 
 const init = async () => {
   const server = Hapi.server({
-    port: 7000,
-    host: "localhost",
+    port: process.env.PORT || 7000, // ⬅️ Gunakan dari .env atau default
+    host: process.env.HOST || "0.0.0.0",
     routes: {
       cors: {
-        origin: ['*'],
+        origin: ["*"],
       },
     },
   });
@@ -34,11 +35,11 @@ const init = async () => {
   });
 
   server.route({
-    method: 'GET',
-    path: '/uploads/{param*}',
+    method: "GET",
+    path: "/uploads/{param*}",
     handler: {
       directory: {
-        path: Path.join(__dirname, 'uploads'),
+        path: Path.join(__dirname, "uploads"),
         listing: false,
         index: false,
       },
