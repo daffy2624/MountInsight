@@ -56,7 +56,9 @@ export default class HomeView {
                   <option value="situbondo">Situbondo</option>
                   <option value="tulungagung">Tulungagung</option>
               </select>
-              <button class="btn-cari">Cari</button>
+              <button class="btn-cari">
+                Cari
+              </button>
           </div>
           </div>
         </div>
@@ -94,9 +96,10 @@ export default class HomeView {
   }
 
   renderRecommendations(recommendations) {
+    // console.log("Recommendation: ", recommendations);
     const section = document.getElementById("recommendation-section");
     section.innerHTML = `
-      <div class="mountain-recommendation">
+      <div class="mountain-recommendation" id="mountain-section">
         <div class="recommendation-layout">
           <h1>Mountain Recommendation</h1>
           <div class="recomen">
@@ -114,15 +117,24 @@ export default class HomeView {
     const container = document.querySelector(".recomen-container-inner");
     container.innerHTML = "";
 
+    // recommendationsData = 
+
     recommendations.forEach((mountain) => {
       const item = document.createElement("div");
+
+      let gambar = mountain.gambar.replace(/^public\//, "");
+
       item.classList.add("recomen-item");
       item.innerHTML = `
-        <img src="${mountain.image}" alt="${mountain.name}" class="image-mountain" />
+        <img src="${gambar}" alt="${mountain.nama}" class="image-mountain" />
         <div class="mountain-details">
-          <h2>${mountain.name}</h2>
-          <p>${mountain.description}</p>
-          <a href="${mountain.link}" class="view-more-btn">View More</a>
+          <h2>${mountain.nama}</h2>
+          <p>${mountain.deskripsi}</p>
+          <p>Lokasi Kabupaten: ${mountain.Lokasi_Kabupaten_Utama}</p>
+          <p>Budget Rata-rata: ${mountain.Budget_Per_Orang_Rupiah_RataRata}</p>
+          <p>Ketinggian ${mountain.Ketinggian_MDPL}</p>
+          <p>Durasi Pendakian rata-rata dalam satuan hari: ${mountain.Durasi_Pendakian_Hari_RataRata}</p>
+          <a href="/#/mountain/${mountain.id}" class="view-more-btn">View More</a>
         </div>
       `;
       container.appendChild(item);
