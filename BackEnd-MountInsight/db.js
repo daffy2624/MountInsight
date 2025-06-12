@@ -1,7 +1,7 @@
+require("dotenv").config();
 const mysql = require("mysql2/promise");
 
-const dbURI =
-  "mysql://root:OHVaIfMVTdmNPPShZIeRrcbOhkvaZPxj@nozomi.proxy.rlwy.net:13652/railway";
+const dbURI = process.env.DATABASE_URL;
 
 async function getConnection() {
   const connection = await mysql.createConnection(dbURI);
