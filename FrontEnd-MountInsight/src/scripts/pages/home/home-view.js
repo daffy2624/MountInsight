@@ -205,20 +205,10 @@ export default class HomeView {
       <div class="mountain-content">
         <h3>${mountain.name}</h3>
         <p>${mountain.description}</p>
-        <button class="mountain-btn">View More</button>
+         <a href="#/mountain/${mountain.id}" class="mountain-btn">View More</a>
       </div>
     `;
-
       container.appendChild(card);
-    });
-
-    // Event listener untuk klik kartu
-    const mountainCards = document.querySelectorAll(".mountain-card");
-    mountainCards.forEach((card) => {
-      card.addEventListener("click", () => {
-        const name = card.querySelector("h3").textContent;
-        alert(`You clicked on ${name}`);
-      });
     });
   }
 }

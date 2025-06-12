@@ -46,7 +46,7 @@ const getAllMountain = async (request, header) => {
     const connection = await getConnection();
 
     const [result] = await connection.execute(
-      "SELECT nama, deskripsi, gambar FROM list_gunung"
+      "SELECT id, nama, deskripsi, gambar FROM list_gunung"
     );
 
     if (result.length === 0) {

@@ -80,6 +80,7 @@ export default class HomePresenter {
 
     // Format data supaya cocok dengan view (nama -> name, gambar -> image, deskripsi -> description)
     return response.data.mountains.map((mountain) => ({
+      id: mountain.id,
       name: mountain.nama,
       image: mountain.gambar,
       description: mountain.deskripsi,
