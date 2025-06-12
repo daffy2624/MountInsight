@@ -74,7 +74,7 @@ export default class HomeView {
         if (section) {
           section.scrollIntoView({ behavior: "smooth" });
         }
-      }, 1000); // Delay 3 detik
+      }, 3000);
     });
 
     const priceSlider = document.getElementById("priceSlider");

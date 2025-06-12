@@ -22,10 +22,9 @@ export default class RegisterView {
               <div class="form-group">
                 <label for="gender">Gender</label>
                 <select id="gender" required>
-                  <option value="" disabled selected>Select your gender</option>
+                  <option value="" disabled selected hidden>Select your gender</option>
                   <option value="L">Male</option>
                   <option value="P">Female</option>
-                  <option value="other">Other</option>
                 </select>
               </div>
 
