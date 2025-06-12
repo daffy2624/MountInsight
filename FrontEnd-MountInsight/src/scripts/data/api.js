@@ -122,14 +122,12 @@ export async function getProfileById(id) {
   };
 }
 
-export async function updateProfile({ id, name, age, gender }) {
+export async function updateProfile({ id, formData }) {
   const url = ENDPOINTS.UPDATE_PROFILE.replace("{id}", id);
-  const data = JSON.stringify({ name, age, gender });
 
   const fetchResponse = await fetch(url, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: data,
+    body: formData,
   });
 
   const json = await fetchResponse.json();

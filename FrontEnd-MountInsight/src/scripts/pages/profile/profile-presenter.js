@@ -6,20 +6,24 @@ export default class ProfilePresenter {
 
   async init() {
     const profileData = await this._getProfileData();
-    this.view.renderForm(profileData);
-    this.view.setupProfilePictureUpload();
-    this.setupEditLogic(profileData.id); // kirim ID user untuk update
-    this.setupLogout();
+    const userId = localStorage.getItem('userId');
+    if (!profileData || !profileData.nama) return;
+
+    requestAnimationFrame(() => {
+      this.view.renderForm(profileData);
+      this.view.setupProfilePictureUpload();
+      this.setupEditLogic(userId);
+      this.setupLogout();
+    });
   }
 
   async _getProfileData() {
     try {
-      const userId = localStorage.getItem('user_id'); // pastikan user_id disimpan saat login
-
+      const userId = localStorage.getItem('userId');
+      
       if (!userId) throw new Error('User ID tidak ditemukan di localStorage.');
 
       const response = await this.model.getProfileById(userId);
-
       if (response.ok && response.data?.profile) {
         return response.data.profile;
       } else {
@@ -42,23 +46,34 @@ export default class ProfilePresenter {
 
     editBtn.addEventListener('click', () => {
       inputs.forEach(input => input.disabled = false);
-      changePicBtn.disabled = false;
-      changePicBtn.classList.remove('disabled');
+      if (changePicBtn) {
+        changePicBtn.disabled = false;
+        changePicBtn.classList.remove('disabled');
+      }
       editBtn.style.display = 'none';
       saveBtn.style.display = 'inline-block';
     });
 
     saveBtn.addEventListener('click', async () => {
-      const updatedProfile = {
-        id: userId,
-        name: document.getElementById('name').value,
-        age: document.getElementById('age').value,
-        gender: document.getElementById('gender').value,
-      };
+      const name = document.getElementById('name')?.value?.trim() || null;
+      const age = document.getElementById('age')?.value || null;
+      const gender = document.getElementById('gender')?.value || null;
+      const fileInput = document.getElementById('uploadInput');
+      const file = fileInput.files[0];
+
+      const formData = new FormData();
+      formData.append('id', userId ?? null);
+      formData.append('name', name);
+      formData.append('age', age);
+      formData.append('gender', gender);
+      if (file) {
+        formData.append('gambar_profil', file); // kirim file kalau ada
+      }
+
+      console.log('Updated profile data before sending:', formData);
 
       try {
-        const result = await this.model.updateProfile(updatedProfile);
-
+        const result = await this.model.updateProfile({ id: userId, formData });
         if (result.ok) {
           alert('Profil berhasil diperbarui.');
         } else {
@@ -69,10 +84,11 @@ export default class ProfilePresenter {
         alert('Terjadi kesalahan saat memperbarui profil.');
       }
 
-      // Disable kembali input & ubah tombol
       inputs.forEach(input => input.disabled = true);
-      changePicBtn.disabled = true;
-      changePicBtn.classList.add('disabled');
+      if (changePicBtn) {
+        changePicBtn.disabled = true;
+        changePicBtn.classList.add('disabled');
+      }
       saveBtn.style.display = 'none';
       editBtn.style.display = 'inline-block';
     });
@@ -83,8 +99,8 @@ export default class ProfilePresenter {
     if (!logoutBtn) return;
 
     logoutBtn.addEventListener('click', () => {
-      localStorage.removeItem('userToken');
-      localStorage.removeItem('user_id');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('userProfile');
       window.location.href = '#/login';
     });
   }

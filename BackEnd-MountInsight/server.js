@@ -33,6 +33,18 @@ const init = async () => {
     },
   });
 
+  server.route({
+    method: 'GET',
+    path: '/uploads/{param*}',
+    handler: {
+      directory: {
+        path: Path.join(__dirname, 'uploads'),
+        listing: false,
+        index: false,
+      },
+    },
+  });
+
   server.route(profile_routes);
   server.route(mountain_routes);
   server.route(comment_routes);

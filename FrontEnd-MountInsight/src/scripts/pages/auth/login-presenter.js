@@ -19,8 +19,17 @@ export default class LoginPresenter {
 
         if (response.ok) {
           console.log("Login berhasil:", response);
-          // Simpan token atau redirect user
-          // Misalnya: localStorage.setItem("user", JSON.stringify(response.data));
+          console.log("Full login response:", response);
+          
+          // Simpan userId atau seluruh data user ke localStorage
+          const userId = response.data?.profile?.id; // pastikan `id` memang dikembalikan dari backend
+          if (userId) {
+            localStorage.setItem("userId", userId); // simpan userId
+            // Jika ingin simpan semua data user:
+            // localStorage.setItem("user", JSON.stringify(response.data));
+          }
+          console.log("User ID dari response:", userId);
+
           window.location.href = "#/"; // arahkan ke halaman berikutnya
         } else {
           alert("Login gagal: " + response.message);
@@ -32,3 +41,4 @@ export default class LoginPresenter {
     });
   }
 }
+
