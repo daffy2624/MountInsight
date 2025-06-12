@@ -1,13 +1,13 @@
-import { getRecommendation } from "../../data/api";
+import { getRecommendation, getAllMountains } from "../../data/api";
 
 export default class HomePresenter {
   constructor(view) {
     this.view = view;
   }
 
-  init() {
+  async init() {
     // const recommendations = this._getRecommendations();
-    const mountains = this._getMountains();
+    const mountains = await this._getMountains();
 
     this.view.renderHero();
     this._setupRecommendationForm();
@@ -68,62 +68,21 @@ export default class HomePresenter {
     });
   }
 
-  _getMountains() {
-    return [
-      {
-        name: "Gunung Kawi",
-        image: "/images/Kawi.png",
-        description:
-          "Gunung yang cocok untuk pemula dengan jalur yang cukup ramah dan suasana mistis yang khas.",
-      },
-      {
-        name: "Gunung Semeru",
-        image: "/images/semeru.webp",
-        description:
-          "Gunung tertinggi di Pulau Jawa. Cocok untuk pendaki berpengalaman. Jalur menantang dan indah.",
-      },
-      {
-        name: "Gunung Rinjani",
-        image: "/images/gunung.png",
-        description:
-          "Gunung eksotis di Lombok dengan pemandangan Danau Segara Anak yang memukau.",
-      },
-      {
-        name: "Gunung Sindoro",
-        image: "/images/bromo.jpg",
-        description:
-          "Gunung di Jawa Tengah yang terkenal dengan sunrise-nya. Jalurnya cukup menanjak tapi bersahabat.",
-      },
-      {
-        name: "Gunung Sindoro",
-        image: "/images/bromo.jpg",
-        description:
-          "Gunung di Jawa Tengah yang terkenal dengan sunrise-nya. Jalurnya cukup menanjak tapi bersahabat.",
-      },
-      {
-        name: "Gunung Sindoro",
-        image: "/images/bromo.jpg",
-        description:
-          "Gunung di Jawa Tengah yang terkenal dengan sunrise-nya. Jalurnya cukup menanjak tapi bersahabat.",
-      },
-      {
-        name: "Gunung Sindoro",
-        image: "/images/bromo.jpg",
-        description:
-          "Gunung di Jawa Tengah yang terkenal dengan sunrise-nya. Jalurnya cukup menanjak tapi bersahabat.",
-      },
-      {
-        name: "Gunung Sindoro",
-        image: "/images/bromo.jpg",
-        description:
-          "Gunung di Jawa Tengah yang terkenal dengan sunrise-nya. Jalurnya cukup menanjak tapi bersahabat.",
-      },
-      {
-        name: "Gunung Sindoro",
-        image: "/images/bromo.jpg",
-        description:
-          "Gunung di Jawa Tengah yang terkenal dengan sunrise-nya. Jalurnya cukup menanjak tapi bersahabat.",
-      },
-    ];
+  async _getMountains() {
+    const response = await getAllMountains();
+
+    if (!response.ok) {
+      this.view.showRecommendationError?.(
+        response.message || "Gagal memuat data gunung."
+      );
+      return [];
+    }
+
+    // Format data supaya cocok dengan view (nama -> name, gambar -> image, deskripsi -> description)
+    return response.data.mountains.map((mountain) => ({
+      name: mountain.nama,
+      image: mountain.gambar,
+      description: mountain.deskripsi,
+    }));
   }
 }
