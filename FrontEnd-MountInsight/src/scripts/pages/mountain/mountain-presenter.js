@@ -1,31 +1,27 @@
+import { getMountainById } from "../../data/api";
+import { parseActivePathname } from "../../routes/url-parser";
+
 export default class MountainPresenter {
   constructor(mountainView) {
     this.mountainView = mountainView;
   }
 
-  init() {
-    const mountainId = 1
-    const mountainData = this._getMountainData(mountainId);
+  async init() {
+    const { id } = parseActivePathname(); // Ambil ID dari URL
 
-    this.mountainView.renderHero(mountainData);
-    this.mountainView.renderCommentSection();
-  }
+    try {
+      const response = await getMountainById(id);
 
-  _getMountainData(id) {
-    return {
-      id: id,
-      name: "Gunung Kawi",
-      image: "/images/Kawi.png",
-      description: "Gunung yang cocok untuk pemula dengan jalur yang cukup ramah dan suasana mistis yang khas.",
-      height: "2,651 m",
-      location: "Malang, Jawa Timur",
-      difficulty: "Mudah",
-      bestTimeToVisit: "April - Oktober",
-      tips: [
-        "Bawa air minum yang cukup.",
-        "Gunakan sepatu trekking yang nyaman.",
-        "Jaga kebersihan jalur pendakian."
-      ]
-    };
+      const mountain = {
+        name: response.data.mountain.nama,
+        image: `/images/${response.data.mountain.gambar}`,
+        description: response.data.mountain.deskripsi,
+      };
+
+      this.mountainView.renderHero(mountain);
+      this.mountainView.renderCommentSection();
+    } catch (error) {
+      alert("Gagal memuat data gunung.");
+    }
   }
 }

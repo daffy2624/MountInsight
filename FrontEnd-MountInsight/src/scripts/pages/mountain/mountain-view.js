@@ -9,17 +9,16 @@ export default class MountainView {
   renderHero(mountain) {
     const section = document.getElementById("mountain-hero");
     section.innerHTML = `
-      <div class="image-container">
-        <img src="${mountain.image}" alt="${mountain.name}" class="mountain-image">
-        <h1>${mountain.name}</h1>
+    <div class="image-container">
+      <img src="${mountain.image}" alt="${mountain.name}" class="mountain-image">
+      <h1>${mountain.name}</h1>
+    </div>
+    <div class="mountain content">
+      <div class="mountain-intro">
+        <p>${mountain.description}</p>
       </div>
-      <div class="mountain content">
-        <div class="mountain-intro">
-          <p>Gunung Kawi adalah gunung yang terletak di perbatasan antara Jawa Timur dan Jawa Tengah, terkenal dengan keindahan alam dan nilai mistisnya.</p>
-          <p>Terletak di Kecamatan Wonosari, Kabupaten Malang, Jawa Timur.</p>
-        </div>
-      </div>
-    `;
+    </div>
+  `;
   }
 
   renderCommentSection() {
@@ -62,7 +61,10 @@ export default class MountainView {
     commentItem.innerHTML = `
       <div class="comment-header">
         <span class="user-name">You</span>
-        <span class="comment-time">${now.toLocaleDateString()} ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+        <span class="comment-time">${now.toLocaleDateString()} ${now.toLocaleTimeString(
+      [],
+      { hour: "2-digit", minute: "2-digit" }
+    )}</span>
       </div>
       <div class="comment-content">${text}</div>
     `;
