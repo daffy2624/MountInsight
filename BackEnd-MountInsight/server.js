@@ -9,7 +9,7 @@ const auth_routes = require("./routes/auth-route");
 
 const init = async () => {
   const server = Hapi.server({
-    port: 8000,
+    port: 7000,
     host: "localhost",
     routes: {
       cors: {
