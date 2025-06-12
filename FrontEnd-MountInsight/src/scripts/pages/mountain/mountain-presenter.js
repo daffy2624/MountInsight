@@ -14,7 +14,7 @@ export default class MountainPresenter {
 
       const mountain = {
         name: response.data.mountain.nama,
-        image: `/images/${response.data.mountain.gambar}`,
+        image: `/${response.data.mountain.gambar.replace(/^public\//, "")}`,
         description: response.data.mountain.deskripsi,
       };
 

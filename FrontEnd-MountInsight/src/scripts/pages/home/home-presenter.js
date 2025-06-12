@@ -82,7 +82,7 @@ export default class HomePresenter {
     return response.data.mountains.map((mountain) => ({
       id: mountain.id,
       name: mountain.nama,
-      image: mountain.gambar,
+      image: `/${mountain.gambar.replace(/^public\//, "")}`,
       description: mountain.deskripsi,
     }));
   }
