@@ -19,19 +19,19 @@ export default class HomeView {
             <div class="price-range">
                 <label class="main-label">Budget</label>
                 <div class="range-labels">
+                    <span>Rp. 10.000</span>
                     <span>Rp. 100.000</span>
-                    <span>Rp. 1.200.000</span>
                 </div>
-                <input type="range" id="priceSlider" min="100000" max="1200000" step="10000" value="10000">
+                <input type="range" id="priceSlider" min="10000" max="100000" step="5000" value="5000">
                 <div id="hargaValue">Rp. 100.000</div>
             </div>
 
             <div class="difficulty-options">
               <label class="main-label">Kesulitan</label>
               <div class="difficulty-list">
-                  <label><input type="radio" name="difficulty"> Mudah</label>
-                  <label><input type="radio" name="difficulty"> Sedang</label>
-                  <label><input type="radio" name="difficulty"> Sulit</label>
+                  <label><input type="radio" name="difficulty" value="mudah"> Mudah</label>
+                  <label><input type="radio" name="difficulty" value="sedang"> Sedang</label>
+                  <label><input type="radio" name="difficulty" value="sulit"> Sulit</label>
               </div>
             </div>
 
@@ -41,9 +41,20 @@ export default class HomeView {
               </div>
               <select id="daerah" name="daerah" required>
                   <option value="" disabled selected hidden>Pilih Kota</option>
-                  <option value="bromo">Gunung Bromo</option>
-                  <option value="rinjani">Gunung Rinjani</option>
-                  <option value="semeru">Gunung Semeru</option>
+                  <option value="batu">Batu</option>
+                  <option value="banyuwangi">Banyuwangi</option>
+                  <option value="blitar">Blitar</option>
+                  <option value="bondowoso">Bondowoso</option>
+                  <option value="jember">Jember</option>
+                  <option value="lumajang">Lumajang</option>
+                  <option value="madiun">Madiun</option>
+                  <option value="magetan">Magetan</option>
+                  <option value="malang">Malang</option>
+                  <option value="mojokerto">Mojokerto</option>
+                  <option value="pasuruan">Pasuruan</option>
+                  <option value="ponorogo">Ponorogo</option>
+                  <option value="situbondo">Situbondo</option>
+                  <option value="tulungagung">Tulungagung</option>
               </select>
               <button class="btn-cari">Cari</button>
           </div>
@@ -62,7 +73,10 @@ export default class HomeView {
       const percentage = ((val - min) / (max - min)) * 100;
 
       priceSlider.style.background = `linear-gradient(to right, #f76b1c 0%, #f76b1c ${percentage}%, #ddd ${percentage}%, #ddd 100%)`;
-      hargaValue.textContent = `Rp. ${value.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+      hargaValue.textContent = `Rp. ${value.replace(
+        /\B(?=(\d{3})+(?!\d))/g,
+        "."
+      )}`;
     }
 
     // Inisialisasi nilai awal
@@ -72,7 +86,11 @@ export default class HomeView {
     priceSlider.addEventListener("input", (e) => {
       updateSliderVisual(e.target.value);
     });
+  }
 
+  showRecommendationError(message) {
+    const section = document.getElementById("recommendation-section");
+    section.innerHTML = `<p class="error-message">${message}</p>`;
   }
 
   renderRecommendations(recommendations) {
@@ -187,20 +205,10 @@ export default class HomeView {
       <div class="mountain-content">
         <h3>${mountain.name}</h3>
         <p>${mountain.description}</p>
-        <button class="mountain-btn">View More</button>
+         <a href="#/mountain/${mountain.id}" class="mountain-btn">View More</a>
       </div>
     `;
-
       container.appendChild(card);
-    });
-
-    // Event listener untuk klik kartu
-    const mountainCards = document.querySelectorAll(".mountain-card");
-    mountainCards.forEach((card) => {
-      card.addEventListener("click", () => {
-        const name = card.querySelector("h3").textContent;
-        alert(`You clicked on ${name}`);
-      });
     });
   }
 }

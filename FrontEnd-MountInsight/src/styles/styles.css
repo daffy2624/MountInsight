@@ -612,7 +612,7 @@ button {
 }
 
 .mountain-card h3 {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   margin-bottom: 12px;
   color: #222;
   font-weight: bold;
@@ -621,7 +621,7 @@ button {
 }
 
 .mountain-card p {
-  font-size: 0.95rem;
+  font-size: 0.8rem;
   color: #555;
   margin-bottom: 20px;
   line-height: 1.5;
@@ -631,8 +631,7 @@ button {
 .mountain-content a {
   display: inline-flex;
   align-items: center;
-  color: #0066cc;
-  font-weight: bold;
+  color: #ffffff;
   text-decoration: none;
   font-size: 0.95rem;
 }
@@ -699,14 +698,15 @@ button {
 .mountain-intro p {
   margin-bottom: 20px;
   font-size: 1.1rem;
+  text-align: justify;
   color: #444;
 }
 
 /* ===== COMMENTS SECTION ===== */
 .comments-section {
-  padding: 250px 10% 60px;
+  padding: 60px 10% 60px;
   background-color: #f9f9f9;
-  margin-top: 0;
+  margin-top: 40px;
 }
 
 .comments-header h3 {
@@ -724,6 +724,7 @@ button {
   margin-top: 30px;
   margin-bottom: 30px;
   position: relative;
+  z-index: 1;
 }
 
 .comment-input {

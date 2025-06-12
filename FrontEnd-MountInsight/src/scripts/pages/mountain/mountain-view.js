@@ -11,16 +11,16 @@ export default class MountainView {
     if (!section || !mountain) return;
 
     section.innerHTML = `
-      <div class="image-container">
-        <img src="${mountain.image}" alt="${mountain.name}" class="mountain-image">
-        <h1>${mountain.name}</h1>
+    <div class="image-container">
+      <img src="${mountain.image}" alt="${mountain.name}" class="mountain-image">
+      <h1>${mountain.name}</h1>
+    </div>
+    <div class="mountain content">
+      <div class="mountain-intro">
+        <p>${mountain.description}</p>
       </div>
-      <div class="mountain content">
-        <div class="mountain-intro">
-          <p>${mountain.deskripsi}</p>
-        </div>
-      </div>
-    `;
+    </div>
+  `;
   }
 
   renderCommentSection(mountainId, comments = []) {
@@ -50,22 +50,36 @@ export default class MountainView {
         `).join('')}
       </div>
     `;
+
+    // Attach event listener after rendering
+    const postButton = document.getElementById("postButton");
+    const commentInput = document.getElementById("commentInput");
+
+    postButton.addEventListener("click", () => {
+      const commentText = commentInput.value.trim();
+      if (commentText) {
+        this._addComment(commentText);
+        commentInput.value = ""; // Clear input
+      }
+    });
   }
 
-  renderError(message) {
-    const heroSection = document.getElementById("mountain-hero");
-    const commentSection = document.getElementById("comment-section");
+  _addComment(text) {
+    const now = new Date();
 
-    if (heroSection) {
-      heroSection.innerHTML = `
-        <div class="error-message">
-          <p style="color: red; font-weight: bold;">${message}</p>
-        </div>
-      `;
-    }
-
-    if (commentSection) {
-      commentSection.innerHTML = '';
-    }
+    const commentsList = document.getElementById("commentsList");
+    const commentItem = document.createElement("div");
+    commentItem.className = "comment-item";
+    commentItem.innerHTML = `
+      <div class="comment-header">
+        <span class="user-name">You</span>
+        <span class="comment-time">${now.toLocaleDateString()} ${now.toLocaleTimeString(
+      [],
+      { hour: "2-digit", minute: "2-digit" }
+    )}</span>
+      </div>
+      <div class="comment-content">${text}</div>
+    `;
+    commentsList.prepend(commentItem); // Prepend for newest first
   }
 }

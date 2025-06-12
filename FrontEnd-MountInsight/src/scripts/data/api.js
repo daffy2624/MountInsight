@@ -1,7 +1,8 @@
-import CONFIG from '../config';
+import CONFIG from "../config";
 
 const ENDPOINTS = {
-  // Auth
+  REKOMENDASI: `${CONFIG.ML_BASE_URL}/recommend_cbf`,
+
   REGISTER: `${CONFIG.BASE_URL}/register`,
   LOGIN: `${CONFIG.BASE_URL}/login`,
 
@@ -17,6 +18,36 @@ const ENDPOINTS = {
   GET_PROFILE: `${CONFIG.BASE_URL}/profile/{id}`,
   UPDATE_PROFILE: `${CONFIG.BASE_URL}/profile/{id}`,
 };
+
+export async function getAllMountains() {
+  const response = await fetch(`${CONFIG.BASE_URL}/mountain/`);
+  const result = await response.json();
+
+  return {
+    ...result,
+    ok: response.ok,
+  };
+}
+
+export async function getRecommendation(data) {
+  const response = await fetch(`${ENDPOINTS.REKOMENDASI}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  console.log(response);
+
+  const result = await response.json();
+
+  console.log("Ini Result: ", JSON.stringify(result, null, 2));
+  return {
+    ...result,
+    ok: response.ok,
+  };
+}
 
 export async function getRegister({ name, email, password, age, gender }) {
   const data = JSON.stringify({ name, email, password, age, gender });
@@ -122,12 +153,14 @@ export async function getProfileById(id) {
   };
 }
 
-export async function updateProfile({ id, formData }) {
+export async function updateProfile({ id, name, age, gender }) {
   const url = ENDPOINTS.UPDATE_PROFILE.replace("{id}", id);
+  const data = JSON.stringify({ name, age, gender });
 
   const fetchResponse = await fetch(url, {
     method: "PUT",
-    body: formData,
+    headers: { "Content-Type": "application/json" },
+    body: data,
   });
 
   const json = await fetchResponse.json();
