@@ -29,9 +29,12 @@ export default class HomeView {
             <div class="difficulty-options">
               <label class="main-label">Kesulitan</label>
               <div class="difficulty-list">
-                  <label><input type="radio" name="difficulty" value="mudah"> Mudah</label>
-                  <label><input type="radio" name="difficulty" value="sedang"> Sedang</label>
-                  <label><input type="radio" name="difficulty" value="sulit"> Sulit</label>
+                <input type="radio" name="difficulty" id="mudah" value="mudah">
+                <label for="mudah">Mudah</label>
+                <input type="radio" name="difficulty" id="sedang" value="sedang">
+                <label for="sedang">Sedang</label>
+                <input type="radio" name="difficulty" id="sulit" value="sulit">
+                <label for="sulit">Sulit</label>
               </div>
             </div>
 
@@ -64,6 +67,15 @@ export default class HomeView {
         </div>
     </div>
     `;
+
+    document.querySelector(".btn-cari").addEventListener("click", () => {
+      setTimeout(() => {
+        const section = document.getElementById("recommendation-section");
+        if (section) {
+          section.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 1000); // Delay 3 detik
+    });
 
     const priceSlider = document.getElementById("priceSlider");
     const hargaValue = document.getElementById("hargaValue");
@@ -117,7 +129,7 @@ export default class HomeView {
     const container = document.querySelector(".recomen-container-inner");
     container.innerHTML = "";
 
-    // recommendationsData = 
+    // recommendationsData =
 
     recommendations.forEach((mountain) => {
       const item = document.createElement("div");
@@ -131,13 +143,28 @@ export default class HomeView {
           <h2>${mountain.nama}</h2>
           <p>${mountain.deskripsi}</p>
           <p>Lokasi Kabupaten: ${mountain.Lokasi_Kabupaten_Utama}</p>
-          <p>Budget Rata-rata: ${mountain.Budget_Per_Orang_Rupiah_RataRata}</p>
-          <p>Ketinggian ${mountain.Ketinggian_MDPL}</p>
-          <p>Durasi Pendakian rata-rata dalam satuan hari: ${mountain.Durasi_Pendakian_Hari_RataRata}</p>
-          <a href="/#/mountain/${mountain.id}" class="view-more-btn">View More</a>
+          <p>Budget Rata-rata: Rp${Number(
+            mountain.Budget_Per_Orang_Rupiah_RataRata
+          ).toLocaleString("id-ID")}/orang</p>
+          <p>Ketinggian: ${Number(mountain.Ketinggian_MDPL).toLocaleString(
+            "id-ID"
+          )} mdpl</p>
+          <p>Durasi Pendakian rata-rata: ${
+            mountain.Durasi_Pendakian_Hari_RataRata
+          } hari</p>
+          <a href="/#/mountain/${
+            mountain.id
+          }" class="view-more-btn">View More</a>
         </div>
       `;
       container.appendChild(item);
+    });
+
+    const viewMoreButtons = document.querySelectorAll(".view-more-btn");
+    viewMoreButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
     });
 
     this._setupCarousel();
@@ -187,10 +214,12 @@ export default class HomeView {
           <p>Temukan petualangan tak terlupakan dengan mendaki gunung-gunung terbaik di Jawa Timur. Dari puncak yang menantang hingga pemandangan spektakuler, jelajahi keindahan alam yang tak ada duanya</p>
       </div>
       <div class="video-wrapper">
-          <video class="video-player" controls>
-              <source src="/images/video.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-          </video>
+          <iframe class="video-player"
+        src="https://www.youtube.com/embed/9nQv9hL8RFQ"
+        title="YouTube video player" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+    </iframe>
       </div>
     `;
   }
@@ -221,6 +250,13 @@ export default class HomeView {
       </div>
     `;
       container.appendChild(card);
+    });
+
+    const viewMoreButtons = document.querySelectorAll(".mountain-btn");
+    viewMoreButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
     });
   }
 }

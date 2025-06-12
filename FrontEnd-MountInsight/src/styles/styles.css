@@ -14,7 +14,6 @@ body {
   color: #333;
 }
 
-
 /* ===== HEADER/NAVBAR STYLES ===== */
 header {
   background-color: rgba(255, 255, 255, 0.903);
@@ -205,10 +204,13 @@ nav ul li a:hover {
 
 .difficulty-list {
   display: flex;
-  flex-direction: row;
   gap: 30px;
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: center;
+}
+
+.difficulty-list input[type="radio"] {
+  display: none;
 }
 
 .difficulty-list label {
@@ -224,19 +226,18 @@ nav ul li a:hover {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.difficulty-list input[type="radio"] {
-  display: none;
-}
-
-.difficulty-list input[type="radio"]:checked + label {
-  background-color: #3498db;
+/* Warna ketika dipilih */
+input[type="radio"]:checked + label {
+  background-color: #f76b1c;
   color: white;
   transform: scale(1.05);
-  box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+  box-shadow: 0 6px 15px rgba(247, 107, 28, 0.4);
 }
 
+/* Hover tetap bekerja */
 .difficulty-list label:hover {
-  background-color: #ecf6fc;
+  background-color: #f76b1c;
+  color: white;
 }
 
 /* ===== REGISTRATION FORM STYLES ===== */
@@ -534,7 +535,7 @@ select:focus {
 /* ===== BUTTON STYLES ===== */
 button {
   padding: 15px 100px;
-  background-color: #569810;
+  background-color: #f27831;
   color: white;
   border: none;
   border-radius: 10px;
@@ -1017,8 +1018,6 @@ button {
   border-radius: 12px;
   overflow: hidden;
   margin: 0 10px;
-  height: 320px;
-  max-height: 320px;
 }
 
 .image-mountain {
@@ -1029,6 +1028,7 @@ button {
 }
 
 .mountain-details {
+  text-align: left;
   padding: 15px;
   flex: 1;
   display: flex;
@@ -1055,9 +1055,9 @@ button {
 }
 
 .view-more-btn {
-  align-self: flex-start;
+  align-self: flex-end;
   padding: 8px 16px;
-  background-color: #4caf50;
+  background-color: #ff8c00;
   color: white;
   text-decoration: none;
   border-radius: 4px;
@@ -1144,20 +1144,26 @@ button {
 }
 
 .video-wrapper {
+  position: relative;
   width: 100%;
-  max-width: 720px;
+  max-width: 1080px;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  margin: 0 auto;
   background-color: transparent;
-  padding: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   border-radius: 20px;
-  margin: 0 auto;
+  overflow: hidden;
+  border: 2px solid #f76b1c;
 }
 
-.video-player {
+.video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
+  border: 0;
   border-radius: 20px;
-  border: 2px solid #f76b1c;
 }
 
 /* ===== FOOTER STYLES ===== */

@@ -2,19 +2,25 @@ export default class MountainView {
   getTemplate() {
     return `
       <section id="mountain-hero" class="mountain-hero"></section>
+      <section id="mountain-description"></section> 
       <section class="comments-section" id="comment-section"></section>
     `;
   }
 
   renderHero(mountain) {
-    const section = document.getElementById("mountain-hero");
-    if (!section || !mountain) return;
+    const heroSection = document.getElementById("mountain-hero");
+    const descSection = document.getElementById("mountain-description");
 
-    section.innerHTML = `
+    if (!heroSection || !descSection || !mountain) return;
+
+    heroSection.innerHTML = `
     <div class="image-container">
       <img src="${mountain.image}" alt="${mountain.name}" class="mountain-image">
       <h1>${mountain.name}</h1>
     </div>
+  `;
+
+    descSection.innerHTML = `
     <div class="mountain content">
       <div class="mountain-intro">
         <p>${mountain.description}</p>
@@ -39,15 +45,19 @@ export default class MountainView {
       </div>
 
       <div class="comments-list" id="commentsList">
-        ${comments.map((c) => `
+        ${comments
+          .map(
+            (c) => `
           <div class="comment-item">
             <div class="comment-header">
-              <span class="user-name">${c.user_name || 'Anon'}</span>
+              <span class="user-name">${c.user_name || "Anon"}</span>
               <span class="comment-time">${c.created_at}</span>
             </div>
             <div class="comment-content">${c.content}</div>
           </div>
-        `).join('')}
+        `
+          )
+          .join("")}
       </div>
     `;
 

@@ -1,5 +1,5 @@
-import routes from '../routes/routes';
-import { getActiveRoute } from '../routes/url-parser';
+import routes from "../routes/routes";
+import { getActiveRoute } from "../routes/url-parser";
 
 class App {
   #content = null;
@@ -10,13 +10,13 @@ class App {
   }
 
   _setupDrawer() {
-    window.addEventListener('scroll', function() {
-      const header = document.querySelector('header');
+    window.addEventListener("scroll", function () {
+      const header = document.querySelector("header");
 
       if (window.scrollY > 0) {
-        header.classList.add('scrolled'); // Menambahkan background saat di-scroll
+        header.classList.add("scrolled"); // Menambahkan background saat di-scroll
       } else {
-        header.classList.remove('scrolled'); // Menghapus background saat di atas
+        header.classList.remove("scrolled"); // Menghapus background saat di atas
       }
     });
   }
