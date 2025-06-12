@@ -8,6 +8,8 @@ export default class MountainView {
 
   renderHero(mountain) {
     const section = document.getElementById("mountain-hero");
+    if (!section || !mountain) return;
+
     section.innerHTML = `
     <div class="image-container">
       <img src="${mountain.image}" alt="${mountain.name}" class="mountain-image">
@@ -21,8 +23,10 @@ export default class MountainView {
   `;
   }
 
-  renderCommentSection() {
+  renderCommentSection(mountainId, comments = []) {
     const section = document.getElementById("comment-section");
+    if (!section) return;
+
     section.innerHTML = `
       <div class="comments-header">
         <h3>Comments</h3>
@@ -35,7 +39,15 @@ export default class MountainView {
       </div>
 
       <div class="comments-list" id="commentsList">
-        <!-- Comments will be inserted here -->
+        ${comments.map((c) => `
+          <div class="comment-item">
+            <div class="comment-header">
+              <span class="user-name">${c.user_name || 'Anon'}</span>
+              <span class="comment-time">${c.created_at}</span>
+            </div>
+            <div class="comment-content">${c.content}</div>
+          </div>
+        `).join('')}
       </div>
     `;
 

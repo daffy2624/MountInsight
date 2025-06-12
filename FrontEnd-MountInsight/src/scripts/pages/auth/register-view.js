@@ -23,8 +23,8 @@ export default class RegisterView {
                 <label for="gender">Gender</label>
                 <select id="gender" required>
                   <option value="" disabled selected>Select your gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
+                  <option value="L">Male</option>
+                  <option value="P">Female</option>
                   <option value="other">Other</option>
                 </select>
               </div>

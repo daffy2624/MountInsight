@@ -2,7 +2,7 @@ import { getMountainById } from "../../data/api";
 import { parseActivePathname } from "../../routes/url-parser";
 
 export default class MountainPresenter {
-  constructor(mountainView) {
+  constructor(mountainView, model) {
     this.mountainView = mountainView;
   }
 

@@ -7,7 +7,8 @@ const ENDPOINTS = {
   LOGIN: `${CONFIG.BASE_URL}/login`,
 
   // mountain
-  MOUNTAIN: `${CONFIG.BASE_URL}/mountain/{id}`,
+  MOUNTAIN: `${CONFIG.BASE_URL}/mountain/id/{id}`,
+  MOUNTAIN_NAME: `${CONFIG.BASE_URL}/mountain/name/{name}`,
 
   //comments
   ADD_COMMENTS: `${CONFIG.BASE_URL}/comments`,
@@ -38,11 +39,11 @@ export async function getRecommendation(data) {
     body: JSON.stringify(data),
   });
 
-  console.log(response);
+  // console.log(response);
 
   const result = await response.json();
 
-  console.log("Ini Result: ", JSON.stringify(result, null, 2));
+  // console.log("Ini Result: ", JSON.stringify(result, null, 2));
   return {
     ...result,
     ok: response.ok,
@@ -93,6 +94,24 @@ export async function getMountainById(id) {
     }
 
     return json; // langsung kembalikan data gunung
+  } catch (error) {
+    console.error("Error saat mengambil data gunung:", error.message);
+    throw error; // lempar lagi agar presenter bisa menanganinya
+  }
+}
+
+export async function getMountainByName(name) {
+  try {
+    const url = ENDPOINTS.MOUNTAIN_NAME.replace("{name}", name);
+    const fetchResponse = await fetch(url);
+
+    const json = await fetchResponse.json();
+
+    if (!fetchResponse.ok) {
+      throw new Error(json.message || "Gagal mengambil data gunung");
+    }
+
+    return json.data; // langsung kembalikan data gunung
   } catch (error) {
     console.error("Error saat mengambil data gunung:", error.message);
     throw error; // lempar lagi agar presenter bisa menanganinya

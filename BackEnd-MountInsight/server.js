@@ -1,6 +1,6 @@
 const Hapi = require("@hapi/hapi");
 const Inert = require("@hapi/inert");
-const Path = require("path");
+const Path = require("path"); 
 
 const profile_routes = require("./routes/profile-route");
 const mountain_routes = require("./routes/mountain-route");
@@ -9,11 +9,11 @@ const auth_routes = require("./routes/auth-route");
 
 const init = async () => {
   const server = Hapi.server({
-    port: 8000,
+    port: 7000,
     host: "localhost",
     routes: {
       cors: {
-        origin: ["*"],
+        origin: ['*'],
       },
     },
   });
@@ -29,6 +29,18 @@ const init = async () => {
       directory: {
         path: Path.join(__dirname, "public"), // <== Folder public
         index: true,
+      },
+    },
+  });
+
+  server.route({
+    method: 'GET',
+    path: '/uploads/{param*}',
+    handler: {
+      directory: {
+        path: Path.join(__dirname, 'uploads'),
+        listing: false,
+        index: false,
       },
     },
   });

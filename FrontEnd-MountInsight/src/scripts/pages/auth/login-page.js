@@ -1,11 +1,12 @@
 import LoginPresenter from "./login-presenter";
 import LoginView from "./login-view";
+import * as MountainApi from "../../data/api" 
 
 
 export default class LoginPage {
   constructor() {
     this.view = new LoginView();
-    this.presenter = new LoginPresenter(this.view);
+    this.presenter = new LoginPresenter(this.view, MountainApi);
   }
 
   async render() {

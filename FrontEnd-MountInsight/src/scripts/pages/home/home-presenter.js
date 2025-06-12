@@ -1,4 +1,4 @@
-import { getRecommendation, getAllMountains } from "../../data/api";
+import { getRecommendation, getAllMountains, getMountainByName } from "../../data/api";
 
 export default class HomePresenter {
   constructor(view) {
@@ -27,7 +27,22 @@ export default class HomePresenter {
       return [];
     }
 
-    return response.data || []; // Pastikan kamu return array untuk view
+    return response.recommendations || []; // Pastikan kamu return array untuk view
+  }
+
+  async _getDatabaseRecommendation(mountainName) {
+
+    const response = await getMountainByName(mountainName);
+
+    // console.log("Response: ", response);
+    if (!response || !response.mountain) {
+      this.view.showRecommendationError?.(
+        response.error || "Terjadi kesalahan."
+      );
+      return [];
+    }
+   
+    return response.mountain || []; // Pastikan kamu return array untuk view
   }
 
   _setupRecommendationForm() {
@@ -64,8 +79,36 @@ export default class HomePresenter {
 
       // Ambil rekomendasi dari backend
       const recommendations = await this._getRecommendation(requestData);
-      this.view.renderRecommendations(recommendations);
+
+      const combinedData = await this._getAllDatabaseRecommendations(recommendations);
+
+      // console.log("Recommendation from Database: ", combinedData);
+
+
+      // console.log("Recommendations: ", recommendations);
+      this.view.renderRecommendations(combinedData);
     });
+  }
+
+  async _getAllDatabaseRecommendations(recommendations) {
+    const results = [];
+  
+    for (const rec of recommendations) {
+      try {
+        const data = await this._getDatabaseRecommendation(rec.Nama_Gunung);
+        if (data) {
+          // Gabungkan data ML dan data DB jadi satu objek
+          results.push({
+            ...rec,        // data dari ML
+            ...data        // data dari database (nama, deskripsi, gambar)
+          });
+        }
+      } catch (err) {
+        console.error("Gagal mengambil data untuk:", rec.Nama_Gunung, err.message);
+      }
+    }
+  
+    return results;
   }
 
   async _getMountains() {
