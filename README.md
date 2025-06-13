@@ -36,16 +36,16 @@ Karena saat ini model Machine Learning belum dideploy secara online, Anda dapat 
 ### 1️⃣ Buat Virtual Environment (Python < 3.12.x). Pastikan Python sudah terpasang, dan versinya **di bawah 3.12**.
 python -m venv venv
 
-2️⃣ Aktifkan Virtual Environment
+### 2️⃣ Aktifkan Virtual Environment
 .\venv\Scripts\activate
 
-3️⃣ Install Dependencies
+### 3️⃣ Install Dependencies
 pip install -r requirements.txt
 
-4️⃣ Jalankan FastAPI Server
+### 4️⃣ Jalankan FastAPI Server
 uvicorn app:app --reload --host 0.0.0.0 --port 8000
 
-5️⃣ Jalankan Frontend
+### 5️⃣ Jalankan Frontend
 Pastikan frontend sudah berjalan karena aplikasi akan mengakses model ML 
 
 ⚙️ Konfigurasi Frontend
