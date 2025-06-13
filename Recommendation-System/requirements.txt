@@ -1,0 +1,9 @@
+pandas
+numpy
+tensorflow
+scikit-learn==1.7.0 # Pastikan versi ini cocok dengan Colab
+joblib
+fastapi
+uvicorn
+pydantic
+dill

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekomendasi Gunung Jawa Timur (CBF Murni)</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; background-color: #f4f7f6; color: #333; }
+        .container { max-width: 800px; margin: auto; background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        h1, h2 { color: #2c3e50; text-align: center; margin-bottom: 25px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #555; }
+        input[type="text"], input[type="number"], select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+            background-color: #fdfdfd;
+        }
+        select { height: 40px; }
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            background-color: #007bff; /* Biru untuk FastAPI */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        button:hover { background-color: #0056b3; }
+        .loading { text-align: center; margin-top: 20px; font-style: italic; color: #777; }
+        #recommendations { margin-top: 30px; border-top: 2px solid #eee; padding-top: 20px; }
+        .mountain-card {
+            background-color: #e0f2f7; /* Light blue for FastAPI theme */
+            border: 1px solid #a7d9ed;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .mountain-card h3 { margin-top: 0; color: #004d66; font-size: 1.3em; flex-grow: 1; }
+        .mountain-card p { margin: 5px 0; color: #333; }
+        .score { font-weight: bold; color: #007bff; /* Blue */ font-size: 1.1em; margin-left: 20px; }
+        .no-results { text-align: center; color: #e74c3c; font-style: italic; margin-top: 20px; }
+        .metrics {
+            background-color: #f0f8ff; /* AliceBlue */
+            border: 1px dashed #b0e0e6; /* PowderBlue */
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .metrics p { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Rekomendasi Gunung Jawa Timur</h1>
+        <h2>(Content-Based Filtering Murni)</h2>
+        <form id="recommendationForm">
+            <h2>Preferensi Gunung:</h2>
+            <div class="form-group">
+                <label for="lokasi">Lokasi (Kabupaten Utama, misal: Malang, Bondowoso, Jember):</label>
+                <input type="text" id="lokasi" required>
+            </div>
+            <div class="form-group">
+                <label for="budget">Budget Maksimal (Rupiah, misal: 500000):</label>
+                <input type="number" id="budget" required>
+            </div>
+            <div class="form-group">
+                <label for="kesulitan">Tingkat Kesulitan:</label>
+                <select id="kesulitan" required>
+                    <option value="">-- Pilih --</option>
+                    <option value="mudah">Mudah</option>
+                    <option value="sedang">Sedang</option>
+                    <option value="sulit">Sulit</option>
+                </select>
+            </div>
+            <button type="submit">Dapatkan Rekomendasi</button>
+        </form>
+
+        <div id="loading" class="loading" style="display:none;">Memproses rekomendasi...</div>
+        <div id="recommendations">
+            <h2>Hasil Rekomendasi:</h2>
+            <div id="recommendationList"></div>
+            <div id="noResults" class="no-results" style="display:none;">Tidak ada rekomendasi yang cocok dengan kriteria Anda. Coba ubah input.</div>
+            <div id="metrics" class="metrics" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('recommendationForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Mencegah form dari submit default
+
+            const loadingDiv = document.getElementById('loading');
+            const recommendationListDiv = document.getElementById('recommendationList');
+            const noResultsDiv = document.getElementById('noResults');
+            const metricsDiv = document.getElementById('metrics');
+
+            loadingDiv.style.display = 'block';
+            recommendationListDiv.innerHTML = '';
+            noResultsDiv.style.display = 'none';
+            metricsDiv.style.display = 'none';
+
+            const lokasi = document.getElementById('lokasi').value;
+            const budget = document.getElementById('budget').value;
+            const kesulitan = document.getElementById('kesulitan').value;
+            // Input yang dihapus dari HTML tidak perlu dibaca lagi dari UI
+            // const pemula = document.querySelector('input[name="pemula"]:checked')?.value; // Dihapus dari UI
+            // const fasilitas = document.getElementById('fasilitas').value; // Dihapus dari UI
+
+            // Validasi sederhana untuk input wajib
+            if (!lokasi || !budget || !kesulitan) { // Hanya validasi untuk yang ada (3 input)
+                alert('Mohon lengkapi semua preferensi gunung yang wajib diisi (Lokasi, Budget, Tingkat Kesulitan).');
+                loadingDiv.style.display = 'none';
+                return;
+            }
+
+            const data = {
+                lokasi: lokasi,
+                budget: parseInt(budget), // Pastikan ini angka
+                tingkat_kesulitan: kesulitan,
+                cocok_pemula: "Ya", // Defaultkan ke 'Ya' jika tidak diinput oleh user di UI
+                fasilitas_basecamp: "", // Defaultkan kosong jika tidak diinput oleh user di UI
+                // num_recommendations tidak perlu dikirim karena akan menggunakan default di API (5)
+            };
+
+            try {
+                // *** PENTING: Ganti dengan URL API FastAPI Anda ***
+                const response = await fetch('http://127.0.0.1:8000/recommend_cbf', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    if (result.recommendations && result.recommendations.length > 0) {
+                        result.recommendations.forEach(mountain => {
+                            const card = document.createElement('div');
+                            card.className = 'mountain-card';
+                            // Sesuaikan nama kolom jika berbeda dengan output API
+                            card.innerHTML = `
+                                <div>
+                                    <h3>${mountain.Nama_Gunung}</h3>
+                                    <p><strong>Lokasi:</strong> ${mountain.Lokasi_Kabupaten_Utama}</p>
+                                    <p><strong>Ketinggian:</strong> ${mountain.Ketinggian_MDPL} MDPL</p>
+                                    <p><strong>Kesulitan:</strong> ${mountain.Tingkat_Kesulitan_Pendakian}</p>
+                                    <p><strong>Cocok Pemula:</strong> ${mountain.Cocok_Untuk_Pemula}</p>
+                                    <p><strong>Budget Rata-rata:</strong> Rp${mountain.Budget_Per_Orang_Rupiah_RataRata.toLocaleString()}</p>
+                                </div>
+                                <span class="score">Similarity: ${mountain.Similarity_Score.toFixed(4)}</span>
+                            `;
+                            recommendationListDiv.appendChild(card);
+                        });
+
+                        // Tampilkan metrik
+                        if (result.metrics) {
+                            metricsDiv.style.display = 'block';
+                            metricsDiv.innerHTML = '<h3>Metrik Prediksi:</h3>';
+                            for (const key in result.metrics) {
+                                if (result.metrics.hasOwnProperty(key)) {
+                                    const p = document.createElement('p');
+                                    let value = result.metrics[key];
+                                    if (typeof value === 'number') {
+                                        value = value.toFixed(4); // Format float
+                                    }
+                                    p.innerHTML = `<strong>${key.replace(/_/g, ' ')}:</strong> ${value}`;
+                                    metricsDiv.appendChild(p);
+                                }
+                            }
+                        }
+
+                    } else {
+                        noResultsDiv.style.display = 'block';
+                        recommendationListDiv.innerHTML = '';
+                    }
+                } else {
+                    alert('Error dari server: ' + (result.detail || result.error || 'Terjadi kesalahan tidak dikenal.'));
+                    console.error('Server error:', result);
+                }
+            } catch (error) {
+                alert('Terjadi kesalahan saat berkomunikasi dengan API. Pastikan server FastAPI berjalan.');
+                console.error('Fetch error:', error);
+            } finally {
+                loadingDiv.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
