@@ -61,6 +61,7 @@ export default CONFIG;
 
 ❗ Jika Backend tidak berjalan:
 Ganti BASE_URL di FrontEnd-MountInsight/src/scriptsconfig.js menjadi:
+**File: `src/scripts/globals/config.js`**
 ```BASE_URL: "http://localhost:7000"```
 
 ## 🧰 Menjalankan Backend Secara Lokal
