@@ -57,8 +57,9 @@ const CONFIG = {
 };
 export default CONFIG;
 
+---
 
-###❗ Jika Backend tidak berjalan:
+❗ Jika Backend tidak berjalan:
 Ganti BASE_URL menjadi:
 BASE_URL: "http://localhost:7000"
 
@@ -66,8 +67,8 @@ BASE_URL: "http://localhost:7000"
 ### 1️⃣ Masuk ke folder backend:
 cd backend-mountinsight
 
-2️⃣ Lalu install dependencies:
+### 2️⃣ Lalu install dependencies:
 npm install
 
-3️⃣ Jalankan server:
+### 3️⃣ Jalankan server:
 node server.js
