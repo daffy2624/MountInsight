@@ -25,6 +25,17 @@ class App {
     const url = getActiveRoute();
     const page = routes[url];
 
+    // Cek apakah user sudah login
+    const userId = localStorage.getItem("userId");
+    const isLoginPage = url === "/login" || url === "/register";
+
+    if (!userId && !isLoginPage) {
+      window.location.hash = "#/login";
+      return;
+    }
+
+    if (!page) return;
+
     this.#content.innerHTML = await page.render();
     await page.afterRender();
   }

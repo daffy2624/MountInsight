@@ -20,7 +20,7 @@ export default class LoginPresenter {
         if (response.ok) {
           console.log("Login berhasil:", response);
           console.log("Full login response:", response);
-          
+
           // Simpan userId atau seluruh data user ke localStorage
           const userId = response.data?.profile?.id; // pastikan `id` memang dikembalikan dari backend
           if (userId) {
@@ -41,4 +41,3 @@ export default class LoginPresenter {
     });
   }
 }
-
