@@ -48,7 +48,7 @@ uvicorn app:app --reload --host 0.0.0.0 --port 8000
 ### 5️⃣ Jalankan Frontend
 Pastikan frontend sudah berjalan karena aplikasi akan mengakses model ML 
 
-⚙️ Konfigurasi Frontend
+##⚙️ Konfigurasi Frontend
 Pastikan file config.js Anda seperti berikut:
 
 const CONFIG = {
@@ -57,7 +57,7 @@ const CONFIG = {
 };
 export default CONFIG;
 
-❗ Jika Backend tidak berjalan:
+##❗ Jika Backend tidak berjalan:
 Ganti BASE_URL menjadi:
 BASE_URL: "http://localhost:7000"
 
