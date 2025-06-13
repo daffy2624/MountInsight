@@ -36,19 +36,19 @@ Karena saat ini model Machine Learning belum dideploy secara online, Anda dapat 
 ### 1️⃣ Buat Virtual Environment (Python < 3.12.x). Pastikan Python sudah terpasang, dan versinya **di bawah 3.12**.
 python -m venv venv
 
-### 2️⃣ Aktifkan Virtual Environment
+2️⃣ Aktifkan Virtual Environment
 .\venv\Scripts\activate
 
-### 3️⃣ Install Dependencies
+3️⃣ Install Dependencies
 pip install -r requirements.txt
 
-### 4️⃣ Jalankan FastAPI Server
+4️⃣ Jalankan FastAPI Server
 uvicorn app:app --reload --host 0.0.0.0 --port 8000
 
-### 5️⃣ Jalankan Frontend
+5️⃣ Jalankan Frontend
 Pastikan frontend sudah berjalan karena aplikasi akan mengakses model ML 
 
-##⚙️ Konfigurasi Frontend
+⚙️ Konfigurasi Frontend
 Pastikan file config.js Anda seperti berikut:
 
 const CONFIG = {
@@ -57,16 +57,17 @@ const CONFIG = {
 };
 export default CONFIG;
 
-##❗ Jika Backend tidak berjalan:
+
+###❗ Jika Backend tidak berjalan:
 Ganti BASE_URL menjadi:
 BASE_URL: "http://localhost:7000"
 
-🧰 Menjalankan Backend Secara Lokal
-Masuk ke folder backend:
+## 🧰 Menjalankan Backend Secara Lokal
+### 1️⃣ Masuk ke folder backend:
 cd backend-mountinsight
 
-Lalu install dependencies:
+2️⃣ Lalu install dependencies:
 npm install
 
-Jalankan server:
+3️⃣ Jalankan server:
 node server.js
